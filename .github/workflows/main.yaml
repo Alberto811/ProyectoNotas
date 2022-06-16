@@ -24,3 +24,16 @@ jobs:
         run: docker build -t alberto1118/app-notas:1.0.0 .
       - name: Publicar la imagen a DockerHub
         run: docker push alberto1118/app-notas:1.0.0
+        
+        
+  despliegue:
+    needs: subirImagen
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: tfm-alberto-devops
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          usedocker: true
