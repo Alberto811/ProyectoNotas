@@ -1,0 +1,45 @@
+name: Flujo de trabjo DevOps
+
+on: [push, pull_request]
+
+jobs:
+
+  construirImagen:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Build
+      - uses: actions/checkout@v2
+      - uses: docker/build-push-action@v2
+        with:
+          context: .
+          tags: alberto1811/appNotas:latest
+          push: false
+
+  subirImagen:
+    needs: construirImagen
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Loguarse a DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Subir imagen a DockerHub
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          tags: alberto1811/appNotas:latest
+          push: true
+
+  despliegue:
+    needs: subirImagen
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+        heroku_app_name: tfm-alberto-devops
+        heroku_email: ${{ secrets.HEROKU_EMAIL }}
+        usedocker: true
