@@ -6,7 +6,6 @@ jobs:
   construirImagen:
     runs-on: ubuntu-20.04
     steps:
-      - name: Build
       - uses: actions/checkout@v2
       - uses: docker/build-push-action@v2
         with:
