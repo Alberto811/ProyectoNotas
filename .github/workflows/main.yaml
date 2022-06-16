@@ -10,7 +10,7 @@ jobs:
       - uses: docker/build-push-action@v2
         with:
           context: .
-          tags: alberto1811/appNotas:latest
+          tags: alberto1811/app-notas:latest
           push: false
 
   subirImagen:
@@ -27,7 +27,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          tags: alberto1811/appNotas:latest
+          tags: alberto1811/app-notas:latest
           push: true
 
   despliegue:
