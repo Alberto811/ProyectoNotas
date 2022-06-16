@@ -1,9 +1,8 @@
-name: Flujo de trabjo DevOps
+name: DevOps
 
 on: [push, pull_request]
 
 jobs:
-
   construirImagen:
     runs-on: ubuntu-20.04
     steps:
