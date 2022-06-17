@@ -14,15 +14,16 @@ jobs:
       - name: Anlisis secretos TruffleHog
         uses: edplato/trufflehog-actions-scan@master
 
-  construirImagen:
+  Construir imagen Docker:
+  needs: Analizar Secretos
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Construir imagen Docker
         run: docker build -t alberto1118/app-notas:1.0.0 .
         
-  subirImagen:
-    needs: construirImagen
+  Subir imagen Docker:
+    needs: Construir imagen Docker
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -37,8 +38,8 @@ jobs:
         run: docker push alberto1118/app-notas:1.0.0
         
         
-  despliegue:
-    needs: subirImagen
+  Desplegar app:
+    needs: Subir imagen Docker
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
