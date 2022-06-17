@@ -38,7 +38,7 @@ jobs:
       steps:
         - uses: actions/checkout@v2
         - name: Instalar DockScan
-          run: gem install dockscan
+          run: sudo gem install dockscan
         - name: Ejecutamos DockScan
           run: dockscan unix:///var/run/docker.sock
         
