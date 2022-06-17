@@ -31,8 +31,6 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 
 @SpringBootApplication
 public class KnoteJavaApplication {
-	
-	final String PASSWORD = "SECRETO EXPUESTO";
 
     public static void main(String[] args) {
         SpringApplication.run(KnoteJavaApplication.class, args);

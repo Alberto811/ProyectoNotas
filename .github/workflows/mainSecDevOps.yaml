@@ -11,8 +11,21 @@ jobs:
       - name: Check secrets
         run: docker run --rm -v "$(pwd):/proj" dxa4481/trufflehog --regex -x .trufflehogignore  --max_depth=1 file:///proj
 
+  prueba-sast:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Configurar CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        languages: 'java'
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v1
+    - name: Ejecutar CodeQL
+      uses: github/codeql-action/analyze@v1
+
   construir-imagen-docker:
-    needs: analizar-secretos
+    needs: [analizar-secretos, prueba-sast]
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
