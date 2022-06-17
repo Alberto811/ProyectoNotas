@@ -46,7 +46,7 @@ jobs:
           target: 'http://localhost:8080'
         
   subir-imagen-docker:
-    needs: construir-imagen-docker
+    needs: prueba-dast
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
