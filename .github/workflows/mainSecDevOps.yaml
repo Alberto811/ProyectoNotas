@@ -15,7 +15,7 @@ jobs:
         uses: edplato/trufflehog-actions-scan@master
 
   Construir imagen Docker:
-  needs: Analizar Secretos
+    needs: Analizar Secretos
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
