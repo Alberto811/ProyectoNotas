@@ -40,7 +40,9 @@ jobs:
         - name: Clair imagen
           run: docker run -p 5432:5432 -d --name db arminc/clair-db:latest
         - name: Ejecutar Clair
-          run: docker run -p 6060:6060 --link db:postgres -d --name clair alberto1118/app-notas:1.0.0
+          run: docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:latest
+        - name: Escanear
+          run: clair-scanner --ip 192.168.18.7 alberto1118/app-notas:1.0.0
   
         
   subir-imagen-docker:
@@ -72,7 +74,7 @@ jobs:
           usedocker: true
 
   prueba-dast:
-    needs: subir-imagen-docker
+    needs: desplegar-app
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
