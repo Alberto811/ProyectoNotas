@@ -37,8 +37,9 @@ jobs:
       runs-on: ubuntu-20.04
       steps:
         - uses: actions/checkout@v2
-        - name: Clair
+        - name: Clair imagen
           run: docker run -p 5432:5432 -d --name db arminc/clair-db:latest
+        - name: Ejecutar Clair
           run: docker run -p 6060:6060 --link db:postgres -d --name clair alberto1118/app-notas:1.0.0
   
         
