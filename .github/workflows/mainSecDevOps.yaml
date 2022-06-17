@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: Check secrets
-        run: docker run --rm -v "$(pwd):/proj" dxa4481/trufflehog --regex -x .trufflehogignore  --max_depth=1 file:///proj
+      #- name: Check secrets
+        #run: docker run --rm -v "$(pwd):/proj" dxa4481/trufflehog --regex -x .trufflehogignore  --max_depth=1 file:///proj
 
   prueba-sast:
     runs-on: ubuntu-20.04
@@ -19,10 +19,10 @@ jobs:
       uses: github/codeql-action/init@v1
       with:
         languages: 'java'
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
-    - name: Ejecutar CodeQL
-      uses: github/codeql-action/analyze@v1
+    #- name: Autobuild
+      #uses: github/codeql-action/autobuild@v1
+    #- name: Ejecutar CodeQL
+      #uses: github/codeql-action/analyze@v1
 
   construir-imagen-docker:
     needs: [analizar-secretos, prueba-sast]
@@ -31,6 +31,19 @@ jobs:
       - uses: actions/checkout@v2
       - name: Construir imagen Docker
         run: docker build -t alberto1118/app-notas:1.0.0 .
+
+
+  prueba-dast:
+    needs: construir-imagen-docker
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Ejecutar mi imagen
+        run: docker run --rm --detach --publish 8080:8080 --name app-notas alberto1118/app-notas:1.0.0
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.3.0
+        with:
+          target: 'http://localhost:8080'
         
   subir-imagen-docker:
     needs: construir-imagen-docker
