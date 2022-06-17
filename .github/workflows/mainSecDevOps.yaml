@@ -32,18 +32,15 @@ jobs:
       - name: Construir imagen Docker
         run: docker build -t alberto1118/app-notas:1.0.0 .
 
-
-  prueba-dast:
-    needs: construir-imagen-docker
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - name: Ejecutar mi imagen
-        run: docker run --rm --detach --publish 8080:8080 --name app-notas alberto1118/app-notas:1.0.0
-      - name: HawkScan
-        uses: stackhawk/hawkscan-action@v2.0.0
-        with:
-          apiKey: ${{ secrets.HAWKSCAN_API_KEY }}
+  analizar-infraestructura:
+      needs: construir-imagen-docker
+      runs-on: ubuntu-20.04
+      steps:
+        - uses: actions/checkout@v2
+        - name: Clair
+          run: docker run -p 5432:5432 -d --name db arminc/clair-db:latest
+          run: docker run -p 6060:6060 --link db:postgres -d --name clair alberto1118/app-notas:1.0.0
+  
         
   subir-imagen-docker:
     needs: prueba-dast
@@ -72,3 +69,13 @@ jobs:
           heroku_app_name: tfm-alberto-devops
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           usedocker: true
+
+  prueba-dast:
+    needs: subir-imagen-docker
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: HawkScan
+        uses: stackhawk/hawkscan-action@v2.0.0
+        with:
+          apiKey: ${{ secrets.HAWKSCAN_API_KEY }}
