@@ -42,8 +42,8 @@ jobs:
         run: docker run --rm --detach --publish 8080:80 --name app-notas alberto1118/app-notas:1.0.0
       - name: ZAP Scan
         uses: zaproxy/action-full-scan@v0.4.0
-          with:
-              target: 'http://localhost:8080'
+        with:
+            target: 'http://localhost:8080'
         
   subir-imagen-docker:
     needs: prueba-dast
