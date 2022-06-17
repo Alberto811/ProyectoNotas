@@ -37,6 +37,16 @@ jobs:
       runs-on: ubuntu-20.04
       steps:
         - uses: actions/checkout@v2
+        - name: Clonar repo
+          run: git clone git@github.com:arminc/clair-scanner.git
+        - name: Vamos al directorio
+          run: cd clair-scanner
+        - name: Build
+          run: make build
+        - name: Instalar
+          run: make installLocal
+        - name: Compilar Cross
+          run: make cross
         - name: Clair imagen
           run: docker run -p 5432:5432 -d --name db arminc/clair-db:latest
         - name: Ejecutar Clair
