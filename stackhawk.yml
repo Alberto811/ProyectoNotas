@@ -1,5 +1,5 @@
 app:
   applicationId: f35037ef-e0a6-4d2b-a9e9-d9f1ed4868f4
   env: Development
-  host: http://localhost:8080
+  host: https://tfm-alberto-devops.herokuapp.com
   
