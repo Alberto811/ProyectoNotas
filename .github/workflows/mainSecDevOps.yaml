@@ -8,11 +8,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-        with:
-            fetch-depth: 0
-            ref: ${{ github.head_ref }}
-      - name: Anlisis secretos TruffleHog
-        uses: edplato/trufflehog-actions-scan@master
+      - name: Check secrets
+        run: docker run --rm -v "$(pwd):/proj" dxa4481/trufflehog --regex -x  --max_depth=1 file:///proj
 
   construir-imagen-docker:
     needs: analizar-secretos
