@@ -11,7 +11,7 @@ jobs:
         run: docker build -t alberto1118/app-notas:1.0.0 .
         
   subir-imagen:
-    needs: construirImagen
+    needs: construir-imagen
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -27,7 +27,7 @@ jobs:
         
         
   despliegue-app:
-    needs: subirImagen
+    needs: subir-imagen
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
