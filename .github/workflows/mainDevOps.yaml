@@ -3,14 +3,14 @@ name: DevOps
 on: [push, pull_request]
 
 jobs:
-  construirImagen:
+  construir-imagen:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Construir imagen Docker
         run: docker build -t alberto1118/app-notas:1.0.0 .
         
-  subirImagen:
+  subir-imagen:
     needs: construirImagen
     runs-on: ubuntu-20.04
     steps:
@@ -26,7 +26,7 @@ jobs:
         run: docker push alberto1118/app-notas:1.0.0
         
         
-  despliegue:
+  despliegue-app:
     needs: subirImagen
     runs-on: ubuntu-20.04
     steps:
