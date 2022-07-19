@@ -41,7 +41,6 @@ interface RepositorioTareas extends MongoRepository<Tarea, String> {
 	@Query("{ '_id' : ?0 }")
 	List<Tarea> findTareasByDescription(String description);
 }
-
 @Document(collection = "tareas")
 class Tarea {
     public String id;
