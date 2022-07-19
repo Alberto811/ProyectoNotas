@@ -43,7 +43,6 @@ interface RepositorioTareas extends MongoRepository<Tarea, String> {
 }
 
 @Document(collection = "tareas")
-
 class Tarea {
     public String id;
     public String description;
